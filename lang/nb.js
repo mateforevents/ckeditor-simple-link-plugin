@@ -2,8 +2,9 @@
     'use strict';
 
     CKEDITOR.plugins.setLang('simplelink', 'nb', {
-        title: "Sett inn lenke",
+        title: "Sett inn/rediger lenke",
         displayTextLabel: "Visningstekst",
+        buttonLabel: "Sett inn lenke",
         missingUrl: "URL kan ikke være blank.",
     });
 

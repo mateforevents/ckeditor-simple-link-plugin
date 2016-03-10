@@ -5,8 +5,9 @@
 
         init: function (editor) {
             editor.addCommand('simplelink', new CKEDITOR.dialogCommand('simplelinkDialog'));
+
             editor.ui.addButton('SimpleLink', {
-                label: 'Add a link',
+                label: editor.lang.simplelink.buttonLabel,
                 icons: 'simplelink',
                 command: 'simplelink'
             });

@@ -1,7 +1,7 @@
 ﻿(function (CKEDITOR) {
     'use strict';
 
-    var isExternalURL = /^(http|https):\/\//;
+    var containsScheme = /:\/\//;
 
     CKEDITOR.dialog.add("simplelinkDialog", function (editor) {
         return {
@@ -29,7 +29,7 @@
                         var href = element.getAttribute("href");
 
                         if (href) {
-                            if(!isExternalURL.test(href)) {
+                            if(!containsScheme.test(href)) {
                                 href = "http://" + href;
                             }
                             this.setValue(href);
@@ -48,7 +48,7 @@
                         var href = this.getValue();
 
                         if (href) {
-                            if(!isExternalURL.test(href)) {
+                            if(!containsScheme.test(href)) {
                                 href = "http://" + href;
                             }
 
