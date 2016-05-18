@@ -1,7 +1,33 @@
 ﻿(function (CKEDITOR) {
     'use strict';
 
-    var containsScheme = /:\/\//;
+    /**
+     * Simple check if an URL contains a scheme.
+     *
+     * @param {String} url
+     * @return {Boolean}
+     */
+    function containsScheme (url) {
+        return /^[A-Z]+:/i.test(url);
+    }
+
+    /**
+     * Simple check if a string is an email address.
+     *
+     * Based on the simple regexp given on:
+     * http://www.regular-expressions.info/email.html
+     *
+     * Expanded to also include characters from the latter half of the Unicode
+     * Latin-1 supplement. The first half of this set is mostly non-printable
+     * characters or irrelevant email address characters. The latter half contains
+     * characters found in many Western European languages.
+     *
+     * @param {String} str
+     * @return {Boolean}
+     */
+    function isEmail (str) {
+        return /^[A-Z0-9\u00C0-\u00FF._%+-]+@[A-Z0-9\u00C0-\u00FF.-]+\.[A-Z]{2,}$/i.test(str);
+    }
 
     CKEDITOR.dialog.add("simplelinkDialog", function (editor) {
         return {
@@ -26,12 +52,18 @@
                      * @param {CKEDITOR.dom.element} element Currently selected element.
                      */
                     setup: function (element) {
-                        var href = element.getAttribute("href");
+                        var href = CKEDITOR.tools.trim(element.getAttribute("href"));
 
                         if (href) {
-                            if(!containsScheme.test(href)) {
-                                href = "http://" + href;
+                            if (!containsScheme(href)) {
+                                if (isEmail(href)) {
+                                    href = "mailto:" + href;
+                                }
+                                else {
+                                    href = "http://" + href;
+                                }
                             }
+
                             this.setValue(href);
                         }
                     },
@@ -45,11 +77,16 @@
                      * @param {CKEDITOR.dom.element} element Currently selected element.
                      */
                     commit: function (element) {
-                        var href = this.getValue();
+                        var href = CKEDITOR.tools.trim(this.getValue());
 
                         if (href) {
-                            if(!containsScheme.test(href)) {
-                                href = "http://" + href;
+                            if (!containsScheme(href)) {
+                                if (isEmail(href)) {
+                                    href = "mailto:" + href;
+                                }
+                                else {
+                                    href = "http://" + href;
+                                }
                             }
 
                             element.setAttribute("href", href);
