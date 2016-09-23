@@ -108,7 +108,8 @@
                      * @param {CKEDITOR.dom.element} element Currently selected element.
                      */
                     setup: function (element) {
-                        this.setValue(element.getText());
+                        var text = element.getText().replace(/^\s+|\s+$/, '');
+                        this.setValue(text);
                     },
 
                     /**
