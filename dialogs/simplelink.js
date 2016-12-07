@@ -41,7 +41,7 @@
                 label: "SimpleLink",
                 elements:[{
                     type: "text",
-                    label: "URL",
+                    label: editor.lang.simplelink.urlLabel,
                     id: "edp-URL",
                     validate: CKEDITOR.dialog.validate.notEmpty(editor.lang.simplelink.missingUrl),
 
@@ -55,13 +55,11 @@
                         var href = CKEDITOR.tools.trim(element.getAttribute("href"));
 
                         if (href) {
-                            if (!containsScheme(href)) {
-                                if (isEmail(href)) {
-                                    href = "mailto:" + href;
-                                }
-                                else {
-                                    href = "http://" + href;
-                                }
+                            if (!containsScheme(href) && !isEmail(href)) {
+                                href = "http://" + href;
+                            }
+                            else if (href.substr(0, 7) === 'mailto:') {
+                                href = href.substr(7);
                             }
 
                             this.setValue(href);
