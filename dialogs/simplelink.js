@@ -1,4 +1,4 @@
-﻿(function (CKEDITOR) {
+(function (CKEDITOR) {
     'use strict';
 
     /**
@@ -43,7 +43,7 @@
                     type: "text",
                     label: editor.lang.simplelink.urlLabel,
                     id: "edp-URL",
-                    validate: CKEDITOR.dialog.validate.notEmpty(editor.lang.simplelink.missingUrl),
+                    validate: CKEDITOR.dialog.validate.notEmpty(editor.lang.simplelink.errorUrlEmpty),
 
                     /**
                      * Get the `href` attribute from the link being edited and make sure it has a
@@ -52,11 +52,12 @@
                      * @param {CKEDITOR.dom.element} element Currently selected element.
                      */
                     setup: function (element) {
-                        var href = CKEDITOR.tools.trim(element.getAttribute("href"));
+                    	var href = element.getAttribute("href");
 
                         if (href) {
+                        	    href = CKEDITOR.tools.trim(href);
                             if (!containsScheme(href) && !isEmail(href)) {
-                                href = "http://" + href;
+                                href = "https://" + href;
                             }
                             else if (href.substr(0, 7) === 'mailto:') {
                                 href = href.substr(7);
@@ -83,11 +84,12 @@
                                     href = "mailto:" + href;
                                 }
                                 else {
-                                    href = "http://" + href;
+                                    href = "https://" + href;
                                 }
                             }
 
                             element.setAttribute("href", href);
+                            element.setAttribute("data-cke-saved-href", href);
 
                             if(!element.getText()) {
                                 element.setText(this.getValue());
@@ -97,7 +99,7 @@
                 },
                 {
                     type: "text",
-                    label: editor.lang.simplelink.displayTextLabel,
+                    label: editor.lang.simplelink.textCaption,
                     id: "edp-text-display",
 
                     /**
@@ -122,6 +124,9 @@
                             element.setText(currentValue);
                         }
                     }
+                },{
+                	type: "html",
+                	html: "<p>" + editor.lang.simplelink.anotherTabCaption + "</p>"
                 }]
             }],
 

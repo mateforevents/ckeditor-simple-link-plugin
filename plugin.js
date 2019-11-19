@@ -1,7 +1,7 @@
 (function (CKEDITOR) {
     CKEDITOR.plugins.add('simplelink', {
         icons: 'simplelink',
-        lang: 'en,nb',
+        lang: 'en,de,nb',
 
         init: function (editor) {
             editor.addCommand('simplelink', new CKEDITOR.dialogCommand('simplelinkDialog'));
